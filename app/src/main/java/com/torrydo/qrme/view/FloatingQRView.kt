@@ -1,5 +1,6 @@
 package com.torrydo.qrme.view
 
+import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
@@ -8,6 +9,12 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import com.torrydo.qrme.R
 import com.torrydo.qrme.databinding.QrViewBinding
+import com.torrydo.qrme.utils.toQrBitmap
+import android.content.Context.CLIPBOARD_SERVICE
+import android.util.Log
+import androidx.core.widget.doOnTextChanged
+import com.torrydo.qrme.utils.Utils
+
 
 class FloatingQRView(
     private val context: Context,
@@ -15,15 +22,42 @@ class FloatingQRView(
 ) {
 
     private var viewParams: WindowManager.LayoutParams? = null
+    private var binding: QrViewBinding? = null
 
-    private var binding = QrViewBinding.inflate(LayoutInflater.from(context))
+    init{
+        setup()
+        binding = QrViewBinding.inflate(LayoutInflater.from(context))
+        initViewLayoutParams()
+        config()
+    }
 
-    fun addView() = windowManager.addView(binding.root, viewParams)
-    fun removeView() = windowManager.removeView(binding.root)
-    fun updateView() = windowManager.updateViewLayout(binding.root, viewParams)
+    fun setup(){
+        viewParams = WindowManager.LayoutParams()
+    }
 
+    fun config(){
 
-    fun initViewLayoutParams() {
+        binding!!.qrviewBackicon.setOnClickListener {
+            removeView()
+        }
+
+        binding!!.qrviewEdittext.doOnTextChanged { text, start, before, count ->
+            binding!!.qrviewImage.setImageBitmap(text.toString().toQrBitmap())
+        }
+    }
+
+    fun addView() {
+        windowManager.addView(binding!!.root, viewParams)
+
+        val clipboard = Utils.getLastestClipboard(context)
+        binding!!.qrviewImage.setImageBitmap(clipboard.toQrBitmap())
+        binding!!.qrviewEdittext.setText(clipboard)
+
+    }
+    fun removeView() = windowManager.removeView(binding!!.root)
+    fun updateView() = windowManager.updateViewLayout(binding!!.root, viewParams)
+
+    private fun initViewLayoutParams() {
         viewParams?.apply {
             width = WindowManager.LayoutParams.WRAP_CONTENT
             height = WindowManager.LayoutParams.WRAP_CONTENT

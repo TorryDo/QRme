@@ -7,6 +7,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.torrydo.qrme.databinding.ActivityMainBinding
+import com.torrydo.qrme.utils.toQrBitmap
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,23 +22,7 @@ class MainActivity : AppCompatActivity() {
 
             val value = binding!!.edittext.text.toString()
 
-            val multiFormatWriter = MultiFormatWriter()
-
-            try {
-                val bitMatrix = multiFormatWriter.encode(
-                    value,
-                    BarcodeFormat.QR_CODE,
-                    500,
-                    500
-                )
-                val barCodeEncoder = BarcodeEncoder()
-                val bitmap = barCodeEncoder.createBitmap(bitMatrix);
-
-                binding!!.imageView.setImageBitmap(bitmap)
-
-            } catch (e: Exception) {
-                Log.e("ERROR", "catch csdafsd")
-            }
+            binding!!.imageView.setImageBitmap(value.toQrBitmap())
         }
 
     }

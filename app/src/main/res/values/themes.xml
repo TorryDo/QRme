@@ -13,4 +13,10 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="TransViewStyle">
+        <item name="android:windowEnterAnimation">@anim/open_scroll_from_top</item>
+        <item name="android:windowExitAnimation">@anim/exit_fade_in</item>
+    </style>
+
 </resources>

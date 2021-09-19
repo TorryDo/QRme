@@ -1,12 +1,10 @@
 package com.torrydo.qrme
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.MultiFormatWriter
-import com.journeyapps.barcodescanner.BarcodeEncoder
+import androidx.core.widget.doOnTextChanged
 import com.torrydo.qrme.databinding.ActivityMainBinding
+import com.torrydo.qrme.utils.Utils
 import com.torrydo.qrme.utils.toQrBitmap
 
 class MainActivity : AppCompatActivity() {
@@ -18,12 +16,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
 
-        binding!!.button.setOnClickListener {
+        setup()
 
-            val value = binding!!.edittext.text.toString()
-
-            binding!!.imageView.setImageBitmap(value.toQrBitmap())
+        binding!!.backicon.setOnClickListener {
+            finish()
         }
+
+        binding!!.image.setImageBitmap(Utils.getLastestClipboard(this).toQrBitmap())
+
+        binding!!.edittext.doOnTextChanged { text, start, before, count ->
+            binding!!.image.setImageBitmap(text.toString().toQrBitmap())
+        }
+
+    }
+
+    private fun setup() {
 
     }
 }

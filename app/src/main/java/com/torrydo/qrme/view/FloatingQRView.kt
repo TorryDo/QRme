@@ -1,19 +1,15 @@
 package com.torrydo.qrme.view
 
-import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.WindowManager
+import android.view.*
+import androidx.annotation.RequiresApi
+import androidx.core.widget.doOnTextChanged
 import com.torrydo.qrme.R
 import com.torrydo.qrme.databinding.QrViewBinding
-import com.torrydo.qrme.utils.toQrBitmap
-import android.content.Context.CLIPBOARD_SERVICE
-import android.util.Log
-import androidx.core.widget.doOnTextChanged
 import com.torrydo.qrme.utils.Utils
+import com.torrydo.qrme.utils.toQrBitmap
 
 
 class FloatingQRView(
@@ -24,18 +20,19 @@ class FloatingQRView(
     private var viewParams: WindowManager.LayoutParams? = null
     private var binding: QrViewBinding? = null
 
-    init{
+    init {
         setup()
-        binding = QrViewBinding.inflate(LayoutInflater.from(context))
         initViewLayoutParams()
         config()
     }
 
-    fun setup(){
+    fun setup() {
         viewParams = WindowManager.LayoutParams()
+        binding = QrViewBinding.inflate(LayoutInflater.from(context))
     }
 
-    fun config(){
+    fun config() {
+
 
         binding!!.qrviewBackicon.setOnClickListener {
             removeView()
@@ -46,14 +43,31 @@ class FloatingQRView(
         }
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun addView() {
         windowManager.addView(binding!!.root, viewParams)
 
+        binding!!.qrviewEdittext.requestFocus()
+
+        binding!!.root.requestFocusFromTouch()
+        binding!!.qrviewEdittext.isFocusableInTouchMode = true
+
+//        binding!!.qrviewEdittext.setOnFocusChangeListener { view, b ->
+//            if(b){
+//                val clipboard = Utils.getLastestClipboard(context)
+//                binding!!.qrviewImage.setImageBitmap(clipboard.toQrBitmap())
+//                binding!!.qrviewEdittext.setText(clipboard)
+//            }
+//            context.showShortToast("Dit m3 cuoc doi")
+//        }
         val clipboard = Utils.getLastestClipboard(context)
         binding!!.qrviewImage.setImageBitmap(clipboard.toQrBitmap())
         binding!!.qrviewEdittext.setText(clipboard)
 
+
     }
+
     fun removeView() = windowManager.removeView(binding!!.root)
     fun updateView() = windowManager.updateViewLayout(binding!!.root, viewParams)
 

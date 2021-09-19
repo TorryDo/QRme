@@ -1,2 +1,2 @@
 # QRme
-qr code generator in Android
+qr code generator on Android

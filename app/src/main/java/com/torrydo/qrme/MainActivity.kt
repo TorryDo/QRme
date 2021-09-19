@@ -1,5 +1,6 @@
 package com.torrydo.qrme
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
@@ -47,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding!!.buttonClear.setOnClickListener {
             binding!!.edittext.setText("")
+        }
+        binding!!.buttonInfo.setOnClickListener {
+            startActivity(Intent(this, InfoActivity::class.java))
         }
     }
 

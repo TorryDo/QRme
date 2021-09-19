@@ -96,6 +96,21 @@
 
                 app:layout_constraintStart_toEndOf="@id/button_paste"
                 app:layout_constraintTop_toBottomOf="@id/edittext_layout" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_info"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_square_button"
+                android:backgroundTint="@color/grey"
+                android:text="Info"
+                android:textColor="@color/black"
+
+                app:layout_constraintStart_toEndOf="@id/button_clear"
+                app:layout_constraintTop_toBottomOf="@id/edittext_layout" />
 
             <ImageView
                 android:id="@+id/image"

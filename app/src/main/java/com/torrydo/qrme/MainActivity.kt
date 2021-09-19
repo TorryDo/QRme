@@ -18,19 +18,33 @@ class MainActivity : AppCompatActivity() {
 
         setup()
 
+        onclick()
+    }
+
+    private fun onclick() {
+        binding!!.image.setOnLongClickListener {
+            Utils.getLastestClipboard(this).let {
+                binding!!.edittext.setText(it)
+            }
+            true
+        }
+    }
+
+    private fun setup() {
+        binding!!.edittext.requestFocusFromTouch()
+        binding!!.root.requestFocusFromTouch()
+
         binding!!.backicon.setOnClickListener {
             finish()
         }
-
-        binding!!.image.setImageBitmap(Utils.getLastestClipboard(this).toQrBitmap())
 
         binding!!.edittext.doOnTextChanged { text, start, before, count ->
             binding!!.image.setImageBitmap(text.toString().toQrBitmap())
         }
 
-    }
-
-    private fun setup() {
+        Utils.getLastestClipboard(this).let {
+            binding!!.edittext.setText(it)
+        }
 
     }
 }

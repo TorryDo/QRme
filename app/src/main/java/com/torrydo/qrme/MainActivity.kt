@@ -7,6 +7,7 @@ import com.torrydo.qrme.databinding.ActivityMainBinding
 import com.torrydo.qrme.utils.Utils
 import com.torrydo.qrme.utils.toQrBitmap
 
+
 class MainActivity : AppCompatActivity() {
 
     private var binding: ActivityMainBinding? = null
@@ -17,33 +18,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding!!.root)
 
         setup()
-
         onclick()
     }
 
-    private fun onclick() {
-        binding!!.image.setOnLongClickListener {
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        if (hasFocus) {
+            Utils.showKeyboard(this, binding!!.edittext)
+
             Utils.getLastestClipboard(this).let {
                 binding!!.edittext.setText(it)
             }
-            true
+        } else {
+            Utils.hideKeyboard(this, binding!!.edittext)
+        }
+
+        super.onWindowFocusChanged(hasFocus)
+    }
+
+    private fun onclick() {
+
+        binding!!.backicon.setOnClickListener {
+            finish()
+            Utils.hideKeyboard(this, binding!!.edittext)
+        }
+
+        binding!!.buttonPaste.setOnClickListener {
+            binding!!.edittext.setText(Utils.getLastestClipboard(this))
+        }
+        binding!!.buttonClear.setOnClickListener {
+            binding!!.edittext.setText("")
         }
     }
 
     private fun setup() {
-        binding!!.edittext.requestFocusFromTouch()
-        binding!!.root.requestFocusFromTouch()
-
-        binding!!.backicon.setOnClickListener {
-            finish()
-        }
 
         binding!!.edittext.doOnTextChanged { text, start, before, count ->
-            binding!!.image.setImageBitmap(text.toString().toQrBitmap())
-        }
 
-        Utils.getLastestClipboard(this).let {
-            binding!!.edittext.setText(it)
+            binding!!.image.setImageBitmap(text.toString().toQrBitmap())
         }
 
     }

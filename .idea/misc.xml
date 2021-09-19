@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/APP-Kotlin/PROJECT/QRme_Apk/QRme/app/src/main/res/drawable/custom_square_button.xml" value="0.45260416666666664" />
+        <entry key="..\:/APP-Kotlin/PROJECT/QRme_Apk/QRme/app/src/main/res/drawable/ic_left_arrow.xml" value="0.34322916666666664" />
         <entry key="..\:/APP-Kotlin/PROJECT/QRme_Apk/QRme/app/src/main/res/drawable/ic_qr_code_scan.xml" value="0.346875" />
         <entry key="..\:/APP-Kotlin/PROJECT/QRme_Apk/QRme/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/APP-Kotlin/PROJECT/QRme_Apk/QRme/app/src/main/res/layout/qr_view.xml" value="0.1595744680851064" />

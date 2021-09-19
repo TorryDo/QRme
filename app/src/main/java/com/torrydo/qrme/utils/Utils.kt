@@ -12,8 +12,27 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.UnsupportedEncodingException
+import java.nio.charset.Charset
 
 object Utils {
+
+    fun convertUTF8ToString(s: String): String? {
+        return try {
+            String(s.toByteArray(charset("ISO-8859-1")), Charset.forName("UTF-8"))
+        } catch (e: UnsupportedEncodingException) {
+            return null
+        }
+    }
+
+    // convert internal Java String format to UTF-8
+    fun convertStringToUTF8(s: String): String? {
+        return try {
+            String(s.toByteArray(charset("UTF-8")), Charset.forName("ISO-8859-1"))
+        } catch (e: UnsupportedEncodingException) {
+            null
+        }
+    }
 
     fun getLastestClipboard(context: Context): String {
         val clipboardManager: ClipboardManager =
@@ -75,18 +94,17 @@ object Utils {
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    fun showShortToast(context: Context, message: String) {
+    fun showShortToast(context: Context, message: String) =
         GlobalScope.launch(Dispatchers.Main) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
-    }
+
 
     @OptIn(DelicateCoroutinesApi::class)
-    fun showLongToast(context: Context, message: String) {
+    fun showLongToast(context: Context, message: String) =
         GlobalScope.launch(Dispatchers.Main) {
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
-    }
 
 
 }
